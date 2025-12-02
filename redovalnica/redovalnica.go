@@ -31,7 +31,6 @@
 //	redovalnica.IzpisVsehOcen(studenti)
 //
 //	redovalnica.IzpisiKoncniUspeh(studenti, stOcen)
-
 package redovalnica
 
 import "fmt"
