@@ -12,9 +12,9 @@ func (s Student) String() string {
 	return fmt.Sprintf("%s %s", s.Ime, s.Priimek)
 }
 
-func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int) {
-	if !(ocena >= 0 && ocena <= 10) {
-		fmt.Printf("Ocena %d ni v intervalu [0, 10]\n", ocena)
+func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int, min, max int) {
+	if !(ocena >= min && ocena <= max) {
+		fmt.Printf("Ocena %d ni v intervalu [%d, %d]\n", ocena, min, max)
 		return
 	}
 
@@ -30,7 +30,7 @@ func DodajOceno(studenti map[string]Student, vpisnaStevilka string, ocena int) {
 	fmt.Printf("Ocena %d dodana študentu/ki %s\n", ocena, student)
 }
 
-func IzpisRedovalnice(studenti map[string]Student) {
+func IzpisVsehOcen(studenti map[string]Student) {
 	fmt.Println("REDOVALNICA:")
 	for vpisna, student := range studenti {
 		fmt.Printf("%s - %s: ", vpisna, student)
@@ -38,13 +38,13 @@ func IzpisRedovalnice(studenti map[string]Student) {
 	}
 }
 
-func povprecje(studenti map[string]Student, vpisnaStevilka string) float64 {
+func povprecje(studenti map[string]Student, vpisnaStevilka string, minStOcen int) float64 {
 	student, ok := studenti[vpisnaStevilka]
 	if !ok {
 		return -1
 	}
 
-	if len(student.Ocene) < 6 {
+	if len(student.Ocene) < minStOcen {
 		return 0
 	}
 
@@ -57,10 +57,10 @@ func povprecje(studenti map[string]Student, vpisnaStevilka string) float64 {
 	return avg
 }
 
-func IzpisiKoncniUspeh(studenti map[string]Student) {
+func IzpisiKoncniUspeh(studenti map[string]Student, minStOcen int) {
 	fmt.Println("KONČNI USPEH:")
 	for vpisna, student := range studenti {
-		studentAvg := povprecje(studenti, vpisna)
+		studentAvg := povprecje(studenti, vpisna, minStOcen)
 
 		fmt.Printf("%s: povprečna ocena %.1f -> ", student, studentAvg)
 
